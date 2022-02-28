@@ -1,0 +1,48 @@
+{% extends "layout.html" %} {% block title %} Kirim {% endblock %} {% block body %}
+
+<div class="container">
+    <header>
+        <div class="jumbotron text-center mt-3 mb-5">
+            <h1 class="display-4">Kirim Surat Kaleng</h1>
+            <p class="lead">Penerima tidak akan tahu identitas pengirim</p>
+        </div>
+    </header>
+
+    <main>
+        <form method="post" action="/send">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="form-floating mb-3 col-md-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="id-penerima"
+                            name="id-penerima"
+                            placeholder="XXXXXX"
+                        />
+                        <label for="id-penerima">ID Penerima</label>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="form-floating col-md-6 mb-3">
+                        <textarea
+                            class="form-control"
+                            placeholder="Leave a comment here"
+                            id="pesan"
+                            name="pesan"
+                            style="height: 200px"
+                        ></textarea>
+                        <label for="pesan">Pesan</label>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Kirim</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
+
+{% endblock %}
