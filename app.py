@@ -22,3 +22,11 @@ def kirim():
 @app.route("/inbox")
 def inbox():
     return "TODO"
+
+
+@app.route("/masuk", methods=["GET", "POST"])
+def masuk():
+    if request.method == "GET":
+        return render_template("masuk.html")
+
+    return "TODO"

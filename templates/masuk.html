@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block judul_tab %} Masuk {% endblock %}
+
+{% block judul %} Masuk {% endblock %}
+
+{% block deskripsi %} Jika tidak memiliki akun, masuk di <a href="/daftar">sini</a> {% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <main>
+        <form action="/masuk" method="post">
+
+        <div class="row justify-content-center">
+            <div class="form-floating mb-3 col-md-6">
+                <input
+                    required
+                    autofocus
+                    autocomplete="off"
+                    type="text"
+                    class="form-control"
+                    id="nama-pengguna"
+                    placeholder="Nama Pengguna"
+                />
+                <label for="name-pengguna">Nama Pengguna</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-floating mb-3 col-md-6">
+                <input
+                    required
+                    type="password"
+                    class="form-control"
+                    id="kata-sandi"
+                    placeholder="Kata Sandi"
+                />
+                <label for="kata-sandi">Kata Sandi</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Masuk</button>
+            </div>
+        </div>
+
+        </form>
+    </main>
+</div>
+
+{% endblock %}
