@@ -20,10 +20,10 @@ def kirim():
     return "TODO"
 
 
-@app.route("/inbox")
+@app.route("/kotak_masuk")
 def inbox():
     # TODO: Tampilkan surat yang diterima pengguna
-    return "TODO"
+    return render_template("kotak_masuk.html")
 
 
 @app.route("/daftar", methods=["GET", "POST"])

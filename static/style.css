@@ -1,0 +1,5 @@
+.kotak-pesan td p {
+    min-width: 45ch;
+    max-width: 75ch;
+    max-height: 10rem;
+}
