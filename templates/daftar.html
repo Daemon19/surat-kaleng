@@ -1,0 +1,67 @@
+
+{% extends "layout.html" %}
+
+{% block judul_tab %} Daftar {% endblock %}
+
+{% block judul %} Daftar {% endblock %}
+
+{% block deskripsi %} Jika sudah memiliki akun, masuk di <a href="/masuk">sini</a> {% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <main>
+        <form action="/masuk" method="post">
+
+        <div class="row justify-content-center">
+            <div class="form-floating mb-3 col-md-6">
+                <input
+                    required
+                    autocomplete="off"
+                    type="text"
+                    class="form-control"
+                    id="nama-pengguna"
+                    placeholder="Nama Pengguna"
+                />
+                <label for="name-pengguna">Nama Pengguna</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-floating mb-3 col-md-6">
+                <input
+                    required
+                    type="password"
+                    class="form-control"
+                    id="kata-sandi"
+                    placeholder="Kata Sandi"
+                />
+                <label for="kata-sandi">Kata Sandi</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-floating mb-3 col-md-6">
+                <input
+                    required
+                    type="password"
+                    class="form-control"
+                    id="konfirmasi"
+                    placeholder="Kata Sandi (lagi)"
+                />
+                <label for="konfirmasi">Kata Sandi (lagi)</label>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Daftar</button>
+            </div>
+        </div>
+
+        </form>
+    </main>
+</div>
+
+{% endblock %}
+

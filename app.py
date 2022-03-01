@@ -29,7 +29,7 @@ def inbox():
 @app.route("/daftar", methods=["GET", "POST"])
 def daftar():
     if request.method == "GET":
-        return "TODO"
+        return render_template("daftar.html")
 
     # TODO: Buatkan akun untuk pengguna, lalu masuk ke akun tersebut
     return "TODO"
