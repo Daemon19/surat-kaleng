@@ -16,11 +16,22 @@ def kirim():
     if request.method == "GET":
         return render_template("kirim.html")
 
-    # TODO: Menangani request via POST
+    # TODO: Kirim surat ke pengguna tujuan
+    return "TODO"
 
 
 @app.route("/inbox")
 def inbox():
+    # TODO: Tampilkan surat yang diterima pengguna
+    return "TODO"
+
+
+@app.route("/daftar", methods=["GET", "POST"])
+def daftar():
+    if request.method == "GET":
+        return "TODO"
+
+    # TODO: Buatkan akun untuk pengguna, lalu masuk ke akun tersebut
     return "TODO"
 
 
@@ -29,4 +40,5 @@ def masuk():
     if request.method == "GET":
         return render_template("masuk.html")
 
+    # TODO: Masukkan pengguna
     return "TODO"
