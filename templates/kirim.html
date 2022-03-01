@@ -1,24 +1,29 @@
-{% extends "layout.html" %} {% block title %} Kirim {% endblock %} {% block body %}
+{% extends "layout.html" %}
+
+{% block judul_tab %} Kirim {% endblock %}
+
+{% block judul %} Kirim Surat Kaleng {% endblock %}
+
+{% block deskripsi %} Penerima tidak akan tahu identitas pengirim {% endblock %}
+
+{% block body %}
 
 <div class="container">
-    <header>
-        <div class="jumbotron text-center mt-3 mb-5">
-            <h1 class="display-4">Kirim Surat Kaleng</h1>
-            <p class="lead">Penerima tidak akan tahu identitas pengirim</p>
-        </div>
-    </header>
-
     <main>
-        <form method="post" action="/send">
+        <form method="post" action="/kirim">
+
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="form-floating mb-3 col-md-6">
                         <input
+                            required
+                            autofocus
+                            autocomplete="off"
                             type="text"
                             class="form-control"
                             id="id-penerima"
                             name="id-penerima"
-                            placeholder="XXXXXX"
+                            placeholder="ID Penerima"
                         />
                         <label for="id-penerima">ID Penerima</label>
                     </div>
@@ -26,8 +31,9 @@
                 <div class="row justify-content-center">
                     <div class="form-floating col-md-6 mb-3">
                         <textarea
+                            required
                             class="form-control"
-                            placeholder="Leave a comment here"
+                            placeholder="Pesan"
                             id="pesan"
                             name="pesan"
                             style="height: 200px"
@@ -41,6 +47,7 @@
                     </div>
                 </div>
             </div>
+
         </form>
     </main>
 </div>
