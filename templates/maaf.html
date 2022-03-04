@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block judul_tab %} Maaf {% endblock %}
+
+{% block body %}
+
+<!-- https://memegen.link/ -->
+<main>
+    <img alt="{{ atas }}" class="border img-fluid"
+        src="http://memegen.link/custom/{{ atas | urlencode }}/{{ bawah | urlencode }}.jpg?alt=https://i.imgur.com/CsCgN7Ll.png&width=400"
+        title="{{ atas }}">
+</main>
+
+{% endblock %}
