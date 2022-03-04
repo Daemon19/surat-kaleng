@@ -42,20 +42,25 @@ def index():
 
 @app.route("/kirim", methods=["GET", "POST"])
 def kirim():
+    """Mengirim surat kaleng ke penerima"""
+
     if request.method == "GET":
         return render_template("kirim_surat.html")
-
-    # TODO: Kirim surat ke pengguna tujuan
 
     nama = request.form.get("nama")
     if not nama:
         return minta_maaf("nama penerima harus dicantumkan")
 
+    rows = db.execute("SELECT * FROM pengguna WHERE nama = ?", nama)
+    if not rows:
+        return minta_maaf("penerima tidak ditemukan")
+    penerima = rows[0]["id"]
+
     pesan = request.form.get("pesan")
     if not pesan:
         return minta_maaf("pesan harus dicantumkan")
 
-    db.execute("INSERT INTO surat (penerima, pesan) VALUES (?, ?)", nama, pesan)
+    db.execute("INSERT INTO surat (penerima, pesan) VALUES (?, ?)", penerima, pesan)
 
     return redirect("/")
 
