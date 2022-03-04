@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
-{% block judul_tab %} Maaf {% endblock %}
+{% block judul_tab %} Kesalahan {% endblock %}
+{% block judul %} Maaf {% endblock %}
+{% block deskripsi %} Terjadi kesalahan! {% endblock %}
 
 {% block body %}
-
 <!-- https://memegen.link/ -->
-<main>
-    <img alt="{{ atas }}" class="border img-fluid"
-        src="http://memegen.link/custom/{{ atas | urlencode }}/{{ bawah | urlencode }}.jpg?alt=https://i.imgur.com/CsCgN7Ll.png&width=400"
+<main class="d-flex justify-content-center">
+    <img alt="{{ atas }}" class="border img-fluid rounded"
+        src="https://api.memegen.link/images/icanhas/{{ atas | urlencode }}/{{ bawah | urlencode}}.jpg?height=500"
         title="{{ atas }}">
 </main>
-
 {% endblock %}
