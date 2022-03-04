@@ -18,10 +18,9 @@ db = SQL("sqlite:///surat_kaleng.db")
 
 @app.route("/")
 def index():
-    if not session.get("user_id"):
-        return redirect("/kirim")
-
-    return redirect("/inbox")
+    if session.get("user_id"):
+        return redirect("/inbox")
+    return redirect("/kirim")
 
 
 @app.route("/kirim", methods=["GET", "POST"])
@@ -44,8 +43,27 @@ def daftar():
     if request.method == "GET":
         return render_template("daftar.html")
 
-    # TODO: Buatkan akun untuk pengguna, lalu masuk ke akun tersebut
-    return "TODO"
+    # Membuat akun untuk pengguna, lalu masuk ke akun tersebut
+    nama = request.form.get("nama")
+    if not nama:
+        return minta_maaf("nama harus dicantumkan")
+    if db.execute("SELECT * FROM pengguna WHERE nama = ?", nama):
+        return minta_maaf("nama sudah dimiliki")
+
+    kata_sandi = request.form.get("kata-sandi")
+    konfirmasi = request.form.get("konfirmasi")
+    if not (kata_sandi and konfirmasi):
+        return minta_maaf("kata sandi harus dicantumkan")
+    if kata_sandi != konfirmasi:
+        return minta_maaf("kata sandi dan konfirmasi tidak sama")
+
+    session["id_pengguna"] = db.execute(
+        "INSERT INTO pengguna (nama, hash) VALUES (?, ?)",
+        nama,
+        generate_password_hash(kata_sandi),
+    )
+
+    return redirect("/")
 
 
 @app.route("/masuk", methods=["GET", "POST"])
@@ -56,9 +74,8 @@ def masuk():
     if request.method == "GET":
         return render_template("masuk.html")
 
-    # TODO: Masukkan pengguna
-
-    nama = request.form.get("nama", "").strip()
+    # Memasukkan pengguna
+    nama = request.form.get("nama")
     if not nama:
         return minta_maaf("nama harus dicantumkan")
 

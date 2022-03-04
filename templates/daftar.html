@@ -11,7 +11,7 @@
 
 <div class="container">
     <main>
-        <form action="/masuk" method="post">
+        <form action="/daftar" method="post">
 
         <div class="row justify-content-center">
             <div class="form-floating mb-3 col-md-6">
@@ -20,10 +20,11 @@
                     autocomplete="off"
                     type="text"
                     class="form-control"
-                    id="nama-pengguna"
+                    id="nama"
                     placeholder="Nama Pengguna"
+                    name="nama"
                 />
-                <label for="name-pengguna">Nama Pengguna</label>
+                <label for="name">Nama Pengguna</label>
             </div>
         </div>
 
@@ -35,6 +36,7 @@
                     class="form-control"
                     id="kata-sandi"
                     placeholder="Kata Sandi"
+                    name="kata-sandi"
                 />
                 <label for="kata-sandi">Kata Sandi</label>
             </div>
@@ -48,6 +50,7 @@
                     class="form-control"
                     id="konfirmasi"
                     placeholder="Kata Sandi (lagi)"
+                    name="konfirmasi"
                 />
                 <label for="konfirmasi">Kata Sandi (lagi)</label>
             </div>
