@@ -4,10 +4,9 @@
 
 {% block judul %} Kirim Surat {% endblock %}
 
-{% block deskripsi %} Penerima tidak akan tahu identitas pengirim {% endblock %}
+{% block deskripsi %} Penerima <strong>tidak</strong> akan tahu identitasmu. {% endblock %}
 
 {% block body %}
-
 <div class="container">
     <main>
         <form method="post" action="/kirim">
@@ -15,35 +14,24 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="form-floating mb-3 col-md-6">
-                        <input
-                            required
-                            autofocus
-                            autocomplete="off"
-                            type="text"
-                            class="form-control"
-                            id="id-penerima"
-                            name="id-penerima"
-                            placeholder="ID Penerima"
-                        />
+                        <input required autofocus autocomplete="off" type="text"
+                            class="form-control" id="id-penerima"
+                            name="id-penerima" placeholder="ID Penerima" />
                         <label for="id-penerima">ID Penerima</label>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="form-floating col-md-6 mb-3">
-                        <textarea
-                            required
-                            class="form-control"
-                            placeholder="Pesan"
-                            id="pesan"
-                            name="pesan"
-                            style="height: 200px"
-                        ></textarea>
+                        <textarea required class="form-control"
+                            placeholder="Pesan" id="pesan" name="pesan"
+                            style="height: 200px"></textarea>
                         <label for="pesan">Pesan</label>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary">Kirim</button>
+                        <button type="submit"
+                            class="btn btn-primary">Kirim</button>
                     </div>
                 </div>
             </div>
@@ -51,5 +39,4 @@
         </form>
     </main>
 </div>
-
 {% endblock %}
