@@ -4,7 +4,11 @@
 
 {% block judul %} Masuk {% endblock %}
 
-{% block deskripsi %} Jika tidak memiliki akun, daftar di <a href="/daftar">sini</a> {% endblock %}
+{% block deskripsi %}
+
+Jika tidak memiliki akun, daftar di <a href="/daftar">sini</a>
+
+{% endblock %}
 
 {% block body %}
 
@@ -20,10 +24,11 @@
                     autocomplete="off"
                     type="text"
                     class="form-control"
-                    id="nama-pengguna"
+                    id="nama"
                     placeholder="Nama Pengguna"
+                    name="nama"
                 />
-                <label for="name-pengguna">Nama Pengguna</label>
+                <label for="nama">Nama Pengguna</label>
             </div>
         </div>
 
@@ -35,6 +40,7 @@
                     class="form-control"
                     id="kata-sandi"
                     placeholder="Kata Sandi"
+                    name="kata-sandi"
                 />
                 <label for="kata-sandi">Kata Sandi</label>
             </div>
