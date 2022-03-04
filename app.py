@@ -68,8 +68,13 @@ def kirim():
 @app.route("/kotak-surat")
 @perlu_masuk
 def kotak_surat():
-    # TODO: Query surat dari database yang diterima pengguna
-    return render_template("kotak_surat.html")
+    """Menampilkan semua surat yang diterima pengguna"""
+
+    surat = db.execute(
+        "SELECT * FROM surat WHERE penerima = ? ORDER BY tanggal DESC",
+        session["id_pengguna"],
+    )
+    return render_template("kotak_surat.html", surat=surat)
 
 
 @app.route("/daftar", methods=["GET", "POST"])
