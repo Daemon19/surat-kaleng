@@ -27,7 +27,7 @@ def perlu_masuk(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("id_pengguna") is None:
-            return redirect(url_for("login", next=request.url))
+            return redirect(url_for("masuk", next=request.url))
         return f(*args, **kwargs)
 
     return decorated_function
