@@ -94,6 +94,12 @@ def masuk():
     return redirect("/")
 
 
+@app.route("/keluar")
+def keluar():
+    session.clear()
+    return redirect("/")
+
+
 def minta_maaf(pesan, kode=400):
     """Menampilkan pesan sebagai permohonan maaf kepada pengguna."""
 
