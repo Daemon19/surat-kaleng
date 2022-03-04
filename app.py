@@ -1,7 +1,8 @@
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
 from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -14,6 +15,22 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 db = SQL("sqlite:///surat_kaleng.db")
+
+
+def perlu_masuk(f):
+    """
+    Mendekorasi rute agar memerlukan masuk ke akun.
+
+    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
+    """
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("id_pengguna") is None:
+            return redirect(url_for("login", next=request.url))
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 
 @app.route("/")
@@ -32,10 +49,11 @@ def kirim():
     return "TODO"
 
 
-@app.route("/kotak_masuk")
-def inbox():
-    # TODO: Tampilkan surat yang diterima pengguna
-    return render_template("kotak_masuk.html")
+@app.route("/kotak-surat")
+@perlu_masuk
+def kotak_surat():
+    # TODO: Query surat dari database yang diterima pengguna
+    return render_template("kotak_surat.html")
 
 
 @app.route("/daftar", methods=["GET", "POST"])
