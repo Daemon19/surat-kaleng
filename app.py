@@ -35,15 +35,15 @@ def perlu_masuk(f):
 
 @app.route("/")
 def index():
-    if session.get("user_id"):
-        return redirect("/inbox")
+    if session.get("id_pengguna"):
+        return redirect("/kotak-surat")
     return redirect("/kirim")
 
 
 @app.route("/kirim", methods=["GET", "POST"])
 def kirim():
     if request.method == "GET":
-        return render_template("kirim.html")
+        return render_template("kirim_surat.html")
 
     # TODO: Kirim surat ke pengguna tujuan
     return "TODO"
