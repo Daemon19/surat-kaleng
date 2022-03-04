@@ -46,7 +46,18 @@ def kirim():
         return render_template("kirim_surat.html")
 
     # TODO: Kirim surat ke pengguna tujuan
-    return "TODO"
+
+    nama = request.form.get("nama")
+    if not nama:
+        return minta_maaf("nama penerima harus dicantumkan")
+
+    pesan = request.form.get("pesan")
+    if not pesan:
+        return minta_maaf("pesan harus dicantumkan")
+
+    db.execute("INSERT INTO surat (penerima, pesan) VALUES (?, ?)", nama, pesan)
+
+    return redirect("/")
 
 
 @app.route("/kotak-surat")

@@ -5,9 +5,9 @@ CREATE TABLE pengguna (
 );
 
 CREATE TABLE surat (
-    id INTEGER PRIMARY KEY NOT NULL,
-    id_penerima INTEGER NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    penerima TEXT NOT NULL,
     pesan TEXT NOT NULL,
     tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_penerima) REFERENCES pengguna(id)
+    FOREIGN KEY (penerima) REFERENCES pengguna(nama)
 );
