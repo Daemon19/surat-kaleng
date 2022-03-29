@@ -1,8 +1,13 @@
 from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
-from cs50 import SQL
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os
+from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -14,7 +19,40 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-db = SQL("sqlite:///surat_kaleng.db")
+DATABASE_URI = os.getenv("DATABASE_URL").replace("://", "ql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+
+
+class Pengguna(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nama = db.Column(db.String, unique=True, nullable=False)
+    hash = db.Column(db.String, nullable=False)
+
+    def __repr__(self) -> str:
+        id = self.id
+        nama = self.nama
+        hash = self.hash
+        return f"<{self.__class__.__name__}({id=}, {nama=}, {hash=})>"
+
+
+class Surat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    pesan = db.Column(db.String, nullable=False)
+    tanggal = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    id_penerima = db.Column(db.Integer, db.ForeignKey(
+        "pengguna.id"), nullable=False)
+    penerima = db.relationship(
+        "Pengguna", backref=db.backref("pesan", lazy=True))
+
+    def __repr__(self) -> str:
+        id = self.id
+        pesan = self.pesan
+        tanggal = self.tanggal
+        return f"<{self.__class__.__name__}({id=}, {pesan=}, {tanggal=})>"
 
 
 def perlu_masuk(f):
@@ -51,16 +89,17 @@ def kirim():
     if not nama:
         return minta_maaf("nama penerima harus dicantumkan")
 
-    rows = db.execute("SELECT * FROM pengguna WHERE nama = ?", nama)
-    if not rows:
+    penerima = Pengguna.query.filter_by(nama=nama).first()
+    if not penerima:
         return minta_maaf("penerima tidak ditemukan")
-    penerima = rows[0]["id"]
 
     pesan = request.form.get("pesan")
     if not pesan:
         return minta_maaf("pesan harus dicantumkan")
+    surat = Surat(pesan=pesan, penerima=penerima)
 
-    db.execute("INSERT INTO surat (penerima, pesan) VALUES (?, ?)", penerima, pesan)
+    db.session.add(surat)
+    db.session.commit()
 
     return redirect("/")
 
@@ -70,10 +109,7 @@ def kirim():
 def kotak_surat():
     """Menampilkan semua surat yang diterima pengguna"""
 
-    surat = db.execute(
-        "SELECT * FROM surat WHERE penerima = ? ORDER BY tanggal DESC",
-        session["id_pengguna"],
-    )
+    surat = Surat.query.filter_by(id_penerima=session["id_pengguna"]).all()
     return render_template("kotak_surat.html", surat=surat)
 
 
@@ -86,7 +122,7 @@ def daftar():
     nama = request.form.get("nama")
     if not nama:
         return minta_maaf("nama harus dicantumkan")
-    if db.execute("SELECT * FROM pengguna WHERE nama = ?", nama):
+    if Pengguna.query.filter_by(nama=nama).first():
         return minta_maaf("nama sudah dimiliki")
 
     kata_sandi = request.form.get("kata-sandi")
@@ -96,11 +132,11 @@ def daftar():
     if kata_sandi != konfirmasi:
         return minta_maaf("kata sandi dan konfirmasi tidak sama")
 
-    session["id_pengguna"] = db.execute(
-        "INSERT INTO pengguna (nama, hash) VALUES (?, ?)",
-        nama,
-        generate_password_hash(kata_sandi),
-    )
+    pengguna = Pengguna(nama=nama, hash=generate_password_hash(kata_sandi))
+    db.session.add(pengguna)
+    db.session.commit()
+
+    session["id_pengguna"] = pengguna.id
 
     return redirect("/")
 
@@ -122,13 +158,13 @@ def masuk():
     if not kata_sandi:
         return minta_maaf("kata sandi harus dicantumkan")
 
-    rows = db.execute("SELECT * FROM pengguna WHERE nama = ?", nama)
-    if not rows:
+    pengguna = Pengguna.query.filter_by(nama=nama).first()
+    if not pengguna:
         return minta_maaf("nama tidak terdaftar")
-    if not check_password_hash(rows[0]["hash"], kata_sandi):
+    if not check_password_hash(pengguna.hash, kata_sandi):
         return minta_maaf("kata sandi salah")
 
-    session["id_pengguna"] = rows[0]["id"]
+    session["id_pengguna"] = pengguna.id
 
     return redirect("/")
 
@@ -162,3 +198,8 @@ def minta_maaf(pesan, kode=400):
         return s
 
     return render_template("maaf.html", atas=kode, bawah=escape(pesan)), kode
+
+
+if __name__ == "__main__":
+    db.create_all()
+    app.run(load_dotenv=True)
