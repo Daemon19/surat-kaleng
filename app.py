@@ -200,6 +200,10 @@ def minta_maaf(pesan, kode=400):
     return render_template("maaf.html", atas=kode, bawah=escape(pesan)), kode
 
 
-if __name__ == "__main__":
+@app.cli.command("buat_tabel")
+def buat_tabel():
     db.create_all()
+
+
+if __name__ == "__main__":
     app.run(load_dotenv=True)
