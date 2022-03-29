@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+from babel.dates import format_datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 
@@ -41,7 +42,8 @@ class Pengguna(db.Model):
 class Surat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     pesan = db.Column(db.String, nullable=False)
-    tanggal = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    tanggal = db.Column(db.DateTime(timezone=True),
+                        nullable=False, default=datetime.now())
 
     id_penerima = db.Column(db.Integer, db.ForeignKey(
         "pengguna.id"), nullable=False)
@@ -110,6 +112,10 @@ def kotak_surat():
     """Menampilkan semua surat yang diterima pengguna"""
 
     surat = Surat.query.filter_by(id_penerima=session["id_pengguna"]).all()
+    for s in surat:
+        s.tanggal = format_datetime(
+            s.tanggal, "EEE, dd-MMMM-YYYY hh.mm a", locale="id")
+
     return render_template("kotak_surat.html", surat=surat)
 
 
