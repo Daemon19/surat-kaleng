@@ -112,7 +112,8 @@ def kirim():
 def kotak_surat():
     """Menampilkan semua surat yang diterima pengguna"""
 
-    surat = Surat.query.filter_by(id_penerima=session["id_pengguna"]).order_by(Surat.tanggal.desc()).all()
+    surat = Surat.query.filter_by(id_penerima=session["id_pengguna"]).order_by(
+        Surat.tanggal.desc()).all()
     return render_template("kotak_surat.html", surat=surat)
 
 
@@ -172,7 +173,7 @@ def masuk():
     return redirect("/")
 
 
-@app.route("/keluar")
+@app.route("/keluar", methods=["POST"])
 def keluar():
     session.clear()
     return redirect("/")
