@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, session, url_for
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+from flask_moment import Moment
 from dotenv import load_dotenv
 import os
 from datetime import datetime
@@ -23,8 +24,9 @@ Session(app)
 DATABASE_URI = os.getenv("DATABASE_URL").replace("://", "ql://", 1)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 db = SQLAlchemy(app)
+
+moment = Moment(app)
 
 
 class Pengguna(db.Model):
@@ -42,8 +44,7 @@ class Pengguna(db.Model):
 class Surat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     pesan = db.Column(db.String, nullable=False)
-    tanggal = db.Column(db.DateTime(timezone=True),
-                        nullable=False, default=datetime.now())
+    tanggal = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     id_penerima = db.Column(db.Integer, db.ForeignKey(
         "pengguna.id"), nullable=False)
@@ -111,11 +112,7 @@ def kirim():
 def kotak_surat():
     """Menampilkan semua surat yang diterima pengguna"""
 
-    surat = Surat.query.filter_by(id_penerima=session["id_pengguna"]).all()
-    for s in surat:
-        s.tanggal = format_datetime(
-            s.tanggal, "EEE, dd-MMMM-YYYY hh.mm a", locale="id")
-
+    surat = Surat.query.filter_by(id_penerima=session["id_pengguna"]).order_by(Surat.tanggal.desc()).all()
     return render_template("kotak_surat.html", surat=surat)
 
 
