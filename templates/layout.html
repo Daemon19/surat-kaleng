@@ -31,24 +31,18 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end"
                 id="navbarNavAltMarkup">
-                {% if session["id_pengguna"] %}
-                <div class="navbar-nav me-auto">
+                <div class="navbar-nav">
                     <a class="nav-link" href="/kirim">Kirim Surat</a>
-                </div>
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="/keluar">Keluar</a>
-                </div>
-
-                {% else %}
-                <div class="navbar-nav me-auto">
                     <a class="nav-link" href="/kotak-surat">Kotak Surat</a>
                 </div>
                 <div class="navbar-nav ms-auto">
+                    {% if session["id_pengguna"] %}
+                    <a class="nav-link" href="/keluar">Keluar</a>
+                    {% else %}
                     <a class="nav-link" href="/daftar">Daftar</a>
                     <a class="nav-link" href="/masuk">Masuk</a>
+                    {% endif %}
                 </div>
-
-                {% endif %}
             </div>
         </div>
     </nav>
