@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block judul %} Kirim Surat {% endblock %}
+
+{% block deskripsi %}
+Penerima <strong>TIDAK</strong> akan tahu identitasmu.
+{% endblock %}
+
+{% block konten %}
+<form method="post" action="{{ url_for('kirim_surat') }}" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="form-floating mb-3 col-md-6">
+                {{ form.nama_penerima(class="form-control", placeholder="") }}
+                {{ form.nama_penerima.label }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="form-floating col-md-6 mb-3">
+                {{ form.pesan(class="form-control", placeholder="", style="height: 200px") }}
+                {{ form.pesan.label }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 d-flex justify-content-end">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </div>
+    </div>
+
+</form>
+{% endblock %}

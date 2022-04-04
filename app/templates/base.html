@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <!-- Required meta tags -->
@@ -20,7 +20,7 @@
     <!-- CSS-ku -->
     <link rel="stylesheet" href="../static/style.css" />
 
-    <title>Surat Kaleng: {% block judul_tab %}{% endblock %}</title>
+    <title>Surat Kaleng: {% block judul %}{% endblock %}</title>
 </head>
 
 <body>
@@ -36,20 +36,21 @@
             <div class="collapse navbar-collapse justify-content-end"
                 id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="/kirim"><i
+                    <a class="nav-link" href="{{ url_for('kirim_surat') }}"><i
                             class="bi bi-send-fill"></i> Kirim Surat</a>
-                    <a class="nav-link" href="/kotak-surat"><i class="bi bi-mailbox2"></i> Kotak Surat</a>
+                    <a class="nav-link" href="#"><i class="bi bi-mailbox2"></i>
+                        Kotak Surat</a>
                 </div>
                 <div class="navbar-nav ms-auto">
                     {% if session["id_pengguna"] %}
-                    <form action="/keluar" method="post">
+                    <form action="#" method="post">
                         <button type="submit"
                             class="btn btn-primary">Keluar</button>
                     </form>
                     {% else %}
-                    <a class="nav-link" href="/daftar"><i
+                    <a class="nav-link" href="#"><i
                             class="bi bi-clipboard2-fill"></i> Daftar</a>
-                    <a class="nav-link" href="/masuk"><i
+                    <a class="nav-link" href="#"><i
                             class="bi bi-box-arrow-in-right"></i> Masuk</a>
                     {% endif %}
                 </div>
@@ -59,12 +60,16 @@
 
     <header>
         <div class="text-center mt-3 mb-5">
-            <h1 class="display-4">{% block judul %}{% endblock %}</h1>
+            <h1 class="display-4">{{ self.judul() }}</h1>
             <p class="lead">{% block deskripsi %}{% endblock %}</p>
         </div>
     </header>
 
-    {% block body %} {% endblock %}
+    <div class="container">
+        <main>
+            {% block konten %}{% endblock %}
+        </main>
+    </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script
