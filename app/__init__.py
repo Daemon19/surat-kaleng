@@ -11,5 +11,6 @@ migrate = Migrate(app, db)
 
 login = LoginManager(app)
 login.login_view = "login"
+login.login_message = "Mohon log in untuk mengakses halaman ini."
 
 from app import routes, models

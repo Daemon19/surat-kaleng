@@ -3,7 +3,7 @@
 {% block judul %} Masuk {% endblock %}
 
 {% block deskripsi %}
-Jika tidak memiliki akun, daftar di <a href="#">sini</a>.
+Jika tidak memiliki akun, mohon <a href="{{ url_for('daftar') }}">daftar</a>.
 {% endblock %}
 
 {% block konten %}
@@ -12,29 +12,26 @@ Jika tidak memiliki akun, daftar di <a href="#">sini</a>.
 
     <div class="row justify-content-center">
         <div class="form-floating mb-3 col-md-6">
-            <!-- <input required autofocus autocomplete="off" type="text"
-                class="form-control" id="nama" placeholder="Nama Pengguna"
-                name="nama" />
-            <label for="nama">Nama Pengguna</label> -->
             {{ form.nama(class="form-control", placeholder="") }}
             {{ form.nama.label }}
+            {% for error in form.nama.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
         </div>
     </div>
 
     <div class="row justify-content-center">
         <div class="form-floating mb-3 col-md-6">
-            <!-- <input required type="password" class="form-control" id="kata-sandi"
-                placeholder="Kata Sandi" name="kata-sandi" />
-            <label for="kata-sandi">Kata Sandi</label> -->
             {{ form.password(class="form-control", placeholder="") }}
             {{ form.password.label }}
+            {% for error in form.password.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
         </div>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-md-6 d-flex justify-content-end">
-            <!-- <button type="submit" class="btn btn-primary"><i
-                    class="bi bi-box-arrow-in-right"></i> Masuk</button> -->
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </div>

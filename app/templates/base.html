@@ -39,13 +39,16 @@
                 <div class="navbar-nav">
                     <a class="nav-link" href="{{ url_for('kirim_surat') }}"><i
                             class="bi bi-send-fill"></i> Kirim Surat</a>
-                    <a class="nav-link" href="#"><i class="bi bi-mailbox2"></i>
+                    <a class="nav-link" href="{{ url_for('kotak_surat') }}"><i
+                            class="bi bi-mailbox2"></i>
                         Kotak Surat</a>
                 </div>
 
                 <div class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
-                    <p class="text-light mb-0 me-3 align-self-center">Hai, {{ current_user.nama }}</p>
+                    <p class="text-light mb-0 me-3 d-flex align-items-center">
+                        Hai, {{ current_user.nama }}
+                    </p>
                     <a class="nav-link"
                         href="{{ url_for('logout') }}">Keluar</a>
                     {% else %}
@@ -56,6 +59,12 @@
             </div>
         </div>
     </nav>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-primary text-center" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
 
     <header>
         <div class="text-center mt-3 mb-5">
