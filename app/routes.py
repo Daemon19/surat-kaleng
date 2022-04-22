@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 from functools import wraps
 from . import app, db
 from .schema import Pengguna, Surat
-from .forms import FormMasuk, FormDaftar
+from .forms import FormMasuk, FormDaftar, FormSurat
 
 
 def perlu_masuk(f):
@@ -57,22 +57,13 @@ def index():
 @app.route("/kirim", methods=["GET", "POST"])
 def kirim():
     """Mengirim surat kaleng ke penerima"""
+    form = FormSurat()
 
-    if request.method == "GET":
-        return render_template("kirim_surat.html")
+    if not form.validate_on_submit():
+        return render_template("kirim_surat.html", form=form)
 
-    nama = request.form.get("nama")
-    if not nama:
-        return minta_maaf("nama penerima harus dicantumkan")
-
-    penerima = Pengguna.query.filter_by(nama=nama).first()
-    if not penerima:
-        return minta_maaf("penerima tidak ditemukan")
-
-    pesan = request.form.get("pesan")
-    if not pesan:
-        return minta_maaf("pesan harus dicantumkan")
-    surat = Surat(pesan=pesan, penerima=penerima)
+    penerima = Pengguna.query.filter_by(nama=form.nama.data).first()
+    surat = Surat(pesan=form.pesan.data, penerima=penerima)
 
     db.session.add(surat)
     db.session.commit()

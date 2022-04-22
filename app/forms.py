@@ -1,18 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, ValidationError
+from wtforms import StringField, PasswordField, ValidationError, TextAreaField
 from wtforms.validators import DataRequired, EqualTo
 from werkzeug.security import check_password_hash
 from .schema import Pengguna
 
 
-class FormMasuk(FlaskForm):
-    nama = StringField("Nama pengguna", [DataRequired()])
-    kata_sandi = PasswordField("Kata sandi", [DataRequired()])
+def nama_ditemukan(form, field):
+    pengguna = Pengguna.query.filter_by(nama=field.data).first()
+    if pengguna is None:
+        raise ValidationError("Nama pengguna tidak ditemukan.")
 
-    def validate_nama(self, nama):
-        pengguna = Pengguna.query.filter_by(nama=nama.data).first()
-        if pengguna is None:
-            raise ValidationError("Nama pengguna tidak ditemukan.")
+
+class FormMasuk(FlaskForm):
+    nama = StringField("Nama pengguna", [DataRequired(), nama_ditemukan])
+    kata_sandi = PasswordField("Kata sandi", [DataRequired()])
 
     def validate_kata_sandi(self, kata_sandi):
         pengguna = Pengguna.query.filter_by(nama=self.nama.data).first()
@@ -36,3 +37,8 @@ class FormDaftar(FlaskForm):
         pengguna = Pengguna.query.filter_by(nama=nama.data).first()
         if pengguna is not None:
             raise ValidationError("Nama pengguna telah dipakai.")
+
+
+class FormSurat(FlaskForm):
+    nama = StringField("Nama penerima", [DataRequired(), nama_ditemukan])
+    pesan = TextAreaField("Pesan", [DataRequired()])
