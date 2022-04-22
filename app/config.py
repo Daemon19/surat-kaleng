@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Config:
@@ -10,6 +13,7 @@ class Config:
     SESSION_TYPE = "filesystem"
 
     SQLALCHEMY_DATABASE_URI = (
-        os.getenv("DATABASE_URL", "").replace("://", "ql://", 1) or "sqlite:///surat_kaleng.db"
+        os.getenv("DATABASE_URL", "").replace("://", "ql://", 1)
+        or "sqlite:///surat_kaleng.db"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
