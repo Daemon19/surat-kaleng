@@ -50,8 +50,8 @@ def minta_maaf(pesan, kode=400):
 @app.route("/")
 def index():
     if session.get("id_pengguna"):
-        return redirect("/kotak-surat")
-    return redirect("/kirim")
+        return redirect(url_for("kotak_surat"))
+    return redirect(url_for("kirim"))
 
 
 @app.route("/kirim", methods=["GET", "POST"])
@@ -77,7 +77,7 @@ def kirim():
     db.session.add(surat)
     db.session.commit()
 
-    return redirect("/")
+    return redirect(url_for("index"))
 
 
 @app.route("/kotak-surat")
@@ -125,10 +125,10 @@ def masuk():
 
     pengguna = Pengguna.query.filter_by(nama=form.nama.data).first()
     session["id_pengguna"] = pengguna.id
-    return redirect("/")
+    return redirect(url_for("index"))
 
 
 @app.route("/keluar", methods=["POST"])
 def keluar():
     session.clear()
-    return redirect("/")
+    return redirect(url_for("index"))

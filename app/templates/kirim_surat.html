@@ -11,7 +11,7 @@ Penerima <strong>tidak</strong> akan tahu identitasmu.
 {% block body %}
 <div class="container">
     <main>
-        <form method="post" action="/kirim">
+        <form method="post" action="{{ url_for('kirim') }}">
 
             <div class="container-fluid">
                 <div class="row justify-content-center">
