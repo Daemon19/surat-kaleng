@@ -5,45 +5,54 @@
 {% block judul %} Daftar {% endblock %}
 
 {% block deskripsi %}
-Jika sudah memiliki akun, masuk di <a href="/masuk">sini</a>.
+Mohon isi formulir berikut untuk membuat akun.
 {% endblock %}
 
 {% block body %}
 <div class="container">
     <main>
-        <form action="/daftar" method="post">
+        <form action="{{ url_for('daftar') }}" method="post">
+            {{ form.hidden_tag() }}
 
             <div class="row justify-content-center">
                 <div class="form-floating mb-3 col-md-6">
-                    <input required autocomplete="off" type="text"
-                        class="form-control" id="nama"
-                        placeholder="Nama Pengguna" name="nama" />
-                    <label for="name">Nama Pengguna</label>
+                    {{ form.nama(class="form-control", placeholder="") }}
+                    {{ form.nama.label }}
+                    {% for err in form.nama.errors %}
+                    <div class="text-danger mt-1">
+                        {{ err }}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="form-floating mb-3 col-md-6">
-                    <input required type="password" class="form-control"
-                        id="kata-sandi" placeholder="Kata Sandi"
-                        name="kata-sandi" />
-                    <label for="kata-sandi">Kata Sandi</label>
+                    {{ form.kata_sandi(class="form-control", placeholder="") }}
+                    {{ form.kata_sandi.label }}
+                    {% for err in form.kata_sandi.errors %}
+                    <div class="text-danger mt-1">
+                        {{ err }}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="form-floating mb-3 col-md-6">
-                    <input required type="password" class="form-control"
-                        id="konfirmasi" placeholder="Kata Sandi (lagi)"
-                        name="konfirmasi" />
-                    <label for="konfirmasi">Kata Sandi (lagi)</label>
+                    {{ form.kata_sandi2(class="form-control", placeholder="") }}
+                    {{ form.kata_sandi2.label }}
+                    {% for err in form.kata_sandi2.errors %}
+                    <div class="text-danger mt-1">
+                        {{ err }}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="col-md-6 d-flex justify-content-end">
-                    <button type="submit"
-                        class="btn btn-primary"><i
+                    <button type="submit" class="btn btn-primary"><i
                             class="bi bi-clipboard2-check"></i> Daftar</button>
                 </div>
             </div>

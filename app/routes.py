@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 from functools import wraps
 from . import app, db
 from .schema import Pengguna, Surat
-from .forms import FormMasuk
+from .forms import FormMasuk, FormDaftar
 
 
 def perlu_masuk(f):
@@ -95,30 +95,22 @@ def kotak_surat():
 
 @app.route("/daftar", methods=["GET", "POST"])
 def daftar():
-    if request.method == "GET":
-        return render_template("daftar.html")
+    if session.get("id_pengguna") is not None:
+        return redirect(url_for("index"))
 
-    # Membuat akun untuk pengguna, lalu masuk ke akun tersebut
-    nama = request.form.get("nama")
-    if not nama:
-        return minta_maaf("nama harus dicantumkan")
-    if Pengguna.query.filter_by(nama=nama).first():
-        return minta_maaf("nama sudah dimiliki")
+    form = FormDaftar()
 
-    kata_sandi = request.form.get("kata-sandi")
-    konfirmasi = request.form.get("konfirmasi")
-    if not (kata_sandi and konfirmasi):
-        return minta_maaf("kata sandi harus dicantumkan")
-    if kata_sandi != konfirmasi:
-        return minta_maaf("kata sandi dan konfirmasi tidak sama")
+    if not form.validate_on_submit():
+        return render_template("daftar.html", form=form)
 
-    pengguna = Pengguna(nama=nama, hash=generate_password_hash(kata_sandi))
+    pengguna = Pengguna(
+        nama=form.nama.data, hash=generate_password_hash(form.kata_sandi.data)
+    )
     db.session.add(pengguna)
     db.session.commit()
 
     session["id_pengguna"] = pengguna.id
-
-    return redirect("/")
+    return redirect(url_for("index"))
 
 
 @app.route("/masuk", methods=["GET", "POST"])
