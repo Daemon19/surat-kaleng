@@ -19,7 +19,7 @@ Jika tidak memiliki akun, mohon <a href="{{ url_for('daftar') }}">daftar</a>.
                     {{ form.nama(class="form-control", placeholder="") }}
                     {{ form.nama.label }}
                     {% for err in form.nama.errors %}
-                    <div class="alert alert-danger mt-1">
+                    <div class="text-danger mt-1">
                         {{ err }}
                     </div>
                     {% endfor %}
@@ -31,7 +31,7 @@ Jika tidak memiliki akun, mohon <a href="{{ url_for('daftar') }}">daftar</a>.
                     {{ form.kata_sandi(class="form-control", placeholder="") }}
                     {{ form.kata_sandi.label }}
                     {% for err in form.kata_sandi.errors %}
-                    <div class="alert alert-danger mt-1">
+                    <div class="text-danger mt-1">
                         {{ err }}
                     </div>
                     {% endfor %}
