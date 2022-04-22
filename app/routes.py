@@ -128,7 +128,7 @@ def masuk():
     return redirect(url_for("index"))
 
 
-@app.route("/keluar", methods=["POST"])
+@app.route("/keluar")
 def keluar():
     session.clear()
     return redirect(url_for("index"))

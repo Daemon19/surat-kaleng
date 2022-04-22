@@ -26,7 +26,8 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">Surat Kaleng</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}">Surat
+                Kaleng</a>
             <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false"
@@ -38,17 +39,14 @@
                 <div class="navbar-nav">
                     <a class="nav-link" href="{{ url_for('kirim') }}"><i
                             class="bi bi-send-fill"></i> Kirim Surat</a>
-                    <a class="nav-link" href="{{ url_for('kotak_surat') }}"><i class="bi bi-mailbox2"></i> Kotak Surat</a>
+                    <a class="nav-link" href="{{ url_for('kotak_surat') }}"><i
+                            class="bi bi-mailbox2"></i> Kotak Surat</a>
                 </div>
                 <div class="navbar-nav ms-auto">
                     {% if session["id_pengguna"] %}
-                    <form action="{{ url_for('keluar') }}" method="post">
-                        <button type="submit"
-                            class="btn btn-primary">Keluar</button>
-                    </form>
+                    <a class="nav-link" href="{{ url_for('keluar') }}">
+                        <i class="bi bi-box-arrow-left"></i> Keluar</a>
                     {% else %}
-                    <a class="nav-link" href="{{ url_for('daftar') }}"><i
-                            class="bi bi-clipboard2-fill"></i> Daftar</a>
                     <a class="nav-link" href="{{ url_for('masuk') }}"><i
                             class="bi bi-box-arrow-in-right"></i> Masuk</a>
                     {% endif %}
