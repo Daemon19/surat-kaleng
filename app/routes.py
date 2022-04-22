@@ -1,8 +1,9 @@
 from flask import redirect, render_template, request, session, url_for
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 from functools import wraps
 from . import app, db
 from .schema import Pengguna, Surat
+from .forms import FormMasuk
 
 
 def perlu_masuk(f):
@@ -122,29 +123,16 @@ def daftar():
 
 @app.route("/masuk", methods=["GET", "POST"])
 def masuk():
-    # Melupakan id pengguna
-    session.clear()
+    if session.get("id_pengguna") is not None:
+        return redirect(url_for("index"))
 
-    if request.method == "GET":
-        return render_template("masuk.html")
+    form = FormMasuk()
 
-    # Memasukkan pengguna
-    nama = request.form.get("nama")
-    if not nama:
-        return minta_maaf("nama harus dicantumkan")
+    if not form.validate_on_submit():
+        return render_template("masuk.html", form=form)
 
-    kata_sandi = request.form.get("kata-sandi")
-    if not kata_sandi:
-        return minta_maaf("kata sandi harus dicantumkan")
-
-    pengguna = Pengguna.query.filter_by(nama=nama).first()
-    if not pengguna:
-        return minta_maaf("nama tidak terdaftar")
-    if not check_password_hash(pengguna.hash, kata_sandi):
-        return minta_maaf("kata sandi salah")
-
+    pengguna = Pengguna.query.filter_by(nama=form.nama.data).first()
     session["id_pengguna"] = pengguna.id
-
     return redirect("/")
 
 

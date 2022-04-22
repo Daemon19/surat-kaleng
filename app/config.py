@@ -17,3 +17,6 @@ class Config:
         or "sqlite:///surat_kaleng.db"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Digunakan oleh flask-wtf untuk hidden_tag
+    SECRET_KEY = os.urandom(32)

@@ -5,29 +5,36 @@
 {% block judul %} Masuk {% endblock %}
 
 {% block deskripsi %}
-Jika tidak memiliki akun, daftar di <a href="/daftar">sini</a>.
+Jika tidak memiliki akun, mohon <a href="{{ url_for('daftar') }}">daftar</a>.
 {% endblock %}
 
 {% block body %}
 <div class="container">
     <main>
-        <form action="/masuk" method="post">
+        <form action="{{ url_for('masuk') }}" method="post">
+            {{ form.hidden_tag() }}
 
             <div class="row justify-content-center">
                 <div class="form-floating mb-3 col-md-6">
-                    <input required autofocus autocomplete="off" type="text"
-                        class="form-control" id="nama"
-                        placeholder="Nama Pengguna" name="nama" />
-                    <label for="nama">Nama Pengguna</label>
+                    {{ form.nama(class="form-control", placeholder="") }}
+                    {{ form.nama.label }}
+                    {% for err in form.nama.errors %}
+                    <div class="alert alert-danger mt-1">
+                        {{ err }}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="form-floating mb-3 col-md-6">
-                    <input required type="password" class="form-control"
-                        id="kata-sandi" placeholder="Kata Sandi"
-                        name="kata-sandi" />
-                    <label for="kata-sandi">Kata Sandi</label>
+                    {{ form.kata_sandi(class="form-control", placeholder="") }}
+                    {{ form.kata_sandi.label }}
+                    {% for err in form.kata_sandi.errors %}
+                    <div class="alert alert-danger mt-1">
+                        {{ err }}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
 
